@@ -1,0 +1,3 @@
+publisher_member_function.cpp:15:  <chrono> is an unapproved C++11 header.  [build/c++11] [5]
+Done processing publisher_member_function.cpp
+Total errors found: 1
