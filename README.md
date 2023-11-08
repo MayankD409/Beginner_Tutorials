@@ -16,7 +16,11 @@ This ROS2 package demonstrates a simple publisher-subscriber architecture using 
     ```bash
     mkdir -p ros2_ws/src
     cd ros2_ws/src
+    ros2 pkg create --build-type ament_cmake cpp_pubsub
+    cd cpp_pubsub
     git clone https://github.com/MayankD409/beginner_tutorials.git
+    cp -a /beginner_tutorials/ . /cpp_pubsub/
+    rm -rf beginner_tutorials
     ```
 
 2. **Build the ROS2 Package:**
