@@ -16,7 +16,7 @@ This ROS2 package demonstrates a simple publisher-subscriber architecture using 
     ```bash
     cd path/to/existing/ros2_ws/src
     git clone https://github.com/MayankD409/beginner_tutorials.git
-    cp -a beginner_tutorials/cpp_pubsub ./
+    cp -a beginner_tutorials/cpp_srvcli ./
     ```
 
 2. **Build the ROS2 Package:**
@@ -34,13 +34,13 @@ This ROS2 package demonstrates a simple publisher-subscriber architecture using 
 4. **Run the Publisher (`talker`) Node:**
 
     ```bash
-    ros2 run cpp_pubsub talker
+    ros2 run cpp_srvcli talker
     ```
 
 5. **Run the Subscriber (`listener`) Node:**
 
     ```bash
-    ros2 run cpp_pubsub listener
+    ros2 run cpp_srvcli listener
     ```
 
 6. **Call the Service using ros2 service Command-Line Tool:**
@@ -69,6 +69,12 @@ This ROS2 package demonstrates a simple publisher-subscriber architecture using 
 
 - `MinimalSubscriber` class creates a subscriber node that subscribes to the `topic` topic.
 - `topic_callback()` function is called whenever a new message is received on the `topic` topic, and it prints the received message.
+
+### Service Explanation
+
+- These files demonstrate the interaction with a service (`change_string`), allowing dynamic modification of the message content.
+- The `talker` node sends a service request to change the message content.
+- The `listener` node receives the updated message and prints it to the console.
 
 ### Additional Notes
 
