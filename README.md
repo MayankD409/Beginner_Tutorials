@@ -11,16 +11,12 @@ This ROS2 package demonstrates a simple publisher-subscriber architecture using 
 
 ### Build and Run Steps
 
-1. **Create a ROS2 workspace and clone the repo:**
+1. **Clone the ROS2 Package into an Existing Workspace:**
 
     ```bash
-    mkdir -p ros2_ws/src
-    cd ros2_ws/src
-    ros2 pkg create --build-type ament_cmake cpp_pubsub
-    cd cpp_pubsub
+    cd path/to/existing/ros2_ws/src
     git clone https://github.com/MayankD409/beginner_tutorials.git
-    cp -a /beginner_tutorials/ . /cpp_pubsub/
-    rm -rf beginner_tutorials
+    cp -a beginner_tutorials/cpp_pubsub ./
     ```
 
 2. **Build the ROS2 Package:**
@@ -47,7 +43,19 @@ This ROS2 package demonstrates a simple publisher-subscriber architecture using 
     ros2 run cpp_pubsub listener
     ```
 
-The `talker` node will publish messages to the `topic` topic, and the `listener` node will receive and print those messages.
+6. **Call the Service using ros2 service Command-Line Tool:**
+
+    ```bash
+    ros2 service call /change_string cpp_srvcli/srv/talkerr "{new_string: 'YourNewString'}"
+    ```
+
+7. **Use Launch File for Convenience:**
+
+    ```bash
+    ros2 launch cpp_srvcli service.launch.py
+    ```
+
+    This will automatically run both the `talker` and `listener` nodes.
 
 ### Code Explanation
 
