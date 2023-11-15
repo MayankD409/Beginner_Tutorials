@@ -1,5 +1,5 @@
 # ROS2 Beginner_Tutorials
-## ROS2 Pub/Sub Package: `cpp_pubsub`
+## ROS2 Pub/Sub Package:
 
 This ROS2 package demonstrates a simple publisher-subscriber architecture using the ROS2 middleware. The package contains a publisher node (`talker`) and a subscriber node (`listener`) that communicate over the `topic` topic.
 
