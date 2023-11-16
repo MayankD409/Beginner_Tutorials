@@ -101,7 +101,7 @@ class ServicePublisherNode : public rclcpp::Node {
     // Check if the publish frequency is too fast or too slow
     if (this->get_parameter("publish_frequency").as_int() < 100) {
       RCLCPP_ERROR_STREAM_THROTTLE(this->get_logger(), *this->get_clock(), 100,
-                                   "Publish frequency too fast");
+                                   "Publish frequency too slow");
     } else if (this->get_parameter("publish_frequency").as_int() > 1000) {
       RCLCPP_FATAL_STREAM(this->get_logger(), "Publish frequency too fast");
     }
