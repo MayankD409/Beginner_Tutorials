@@ -37,6 +37,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <memory>
 #include <string>
 #include <cpp_srvcli/srv/talkerr.hpp>
+#include <geometry_msgs/msg/transform_stamped.hpp>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_ros/static_transform_broadcaster.h>
 
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
@@ -68,6 +71,9 @@ class ServicePublisherNode : public rclcpp::Node {
     // Set default message content
     this->message.data = "Default service message";
 
+    // Initialize the static broadcaster
+    tf_static_broadcaster_ = std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
+
     // Create a service for changing the message content
     service_ = this->create_service<cpp_srvcli::srv::Talkerr>(
         "change_string",
@@ -87,6 +93,7 @@ class ServicePublisherNode : public rclcpp::Node {
     timer_ = this->create_wall_timer(
         std::chrono::milliseconds(500),
         std::bind(&ServicePublisherNode::timer_callback, this));
+    this->broadcast_static_transform();
   }
 
  private:
@@ -130,6 +137,26 @@ class ServicePublisherNode : public rclcpp::Node {
                         "Service request received: " << request->new_string);
   }
 
+  void broadcast_static_transform(){
+    geometry_msgs::msg::TransformStamped t;
+    t.header.stamp = this->get_clock()->now();
+    t.header.frame_id = "world";
+    t.child_frame_id = "child";
+    t.transform.translation.x = 1.0;
+    t.transform.translation.y = 2.0;
+    t.transform.translation.z = 1.0;
+    tf2::Quaternion q;
+    q.setRPY(
+      1.0,
+      2.0,
+      1.0);
+    t.transform.rotation.x = q.x();
+    t.transform.rotation.y = q.y();
+    t.transform.rotation.z = q.z();
+    t.transform.rotation.w = q.w();
+    tf_static_broadcaster_->sendTransform(t);
+  }
+
   // Member variables
   std_msgs::msg::String message;        ///< The message to be published
   rclcpp::TimerBase::SharedPtr timer_;  ///< Timer for periodic publishing
@@ -138,6 +165,7 @@ class ServicePublisherNode : public rclcpp::Node {
   rclcpp::Service<cpp_srvcli::srv::Talkerr>::SharedPtr
       service_;   ///< Service for message change
   size_t count_;  ///< Counter for tracking events
+  std::shared_ptr<tf2_ros::StaticTransformBroadcaster> tf_static_broadcaster_;
 };
 
 /**
