@@ -52,10 +52,53 @@ This ROS2 package demonstrates a simple publisher-subscriber architecture using 
 7. **Use Launch File for Convenience:**
 
     ```bash
-    ros2 launch cpp_srvcli service.launch.py
+    ros2 launch cpp_srvcli service.launch.py publish_freq:=590
     ```
 
     This will automatically run both the `talker` and `listener` nodes.
+
+#### Inspecting TF Frames
+
+To inspect TF frames, you can use the following command:
+
+```bash
+ros2 run tf2_tools view_frames.py
+```
+
+#### ROS2 Bag
+
+ROS2 bag is used to record the data published by the talker node. To record the data the launch file can be run with `record_bag` parameter.
+```bash
+ros2 launch cpp_srvcli service.launch.py publish_freq:=590 record_bag:=1
+```
+
+On running this command the recorded data will be saved in the root of your workspace in a folder called `my_bag`. To launch the talker node without recording the bag file use the following command.
+
+```bash
+ros2 launch cpp_srvcli service.launch.py publish_freq:=590 record_bag:=0
+```
+To check if the bag files have been recorded properly
+```bash
+# Check whether the bag has been written to correctly:
+  ros2 bag info my_bag
+```
+To play the recorded data use the following command:
+```bash
+ros2 bag play my_bag
+ros2 run cpp_srvcli listener
+```
+
+#### Testing
+
+To run the ROS2 Integration tests use the following command:
+
+```bash
+# Go to the root of the Workspace
+cd ros2_ws/
+colcon test
+# View the results of the tests:
+cat log/latest_test/cpp_srvcli/stdout_stderr.log
+```
 
 ### Code Explanation
 
