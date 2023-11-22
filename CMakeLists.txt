@@ -15,6 +15,12 @@ find_package(geometry_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(rosbag2_cpp)
 
+set(THIS_PACKAGE_INCLUDE_DEPENDS
+    rclcpp
+    rclcpp_action
+    std_msgs
+)
+
 find_package(Doxygen)
 if ( DOXYGEN_FOUND )
   set( DOXYGEN_OUTPUT_DIRECTORY     ${PROJECT_SOURCE_DIR}/docs )
@@ -53,8 +59,12 @@ doxygen_add_docs(docs           # target name
   DEPENDENCIES std_msgs
 )
 
+foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
+  find_package(${Dependency} REQUIRED)
+endforeach()
+
 add_executable(talker src/publisher_member_function.cpp)
-ament_target_dependencies(talker rclcpp std_msgs geometry_msgs tf2_ros)
+ament_target_dependencies(talker rclcpp std_msgs geometry_msgs tf2_ros rosbag2_cpp)
 
 add_executable(listener src/subscriber_member_function.cpp)
 ament_target_dependencies(listener rclcpp std_msgs)
@@ -82,7 +92,7 @@ if(BUILD_TESTING)
   # set(ament_cmake_cppcheck_FOUND TRUE)
   set(ament_cmake_copyright_FOUND TRUE)
   set(ament_cmake_cpplint_FOUND TRUE)
-  # set(ament_cmake_flake8_FOUND TRUE)
+  set(ament_cmake_flake8_FOUND TRUE)
   set(ament_cmake_uncrustify_FOUND TRUE)
 
   # Run all lint tests in package.xml except those listed above
